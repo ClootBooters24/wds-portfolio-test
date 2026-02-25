@@ -49,10 +49,10 @@ function serveHtmlPage() {
 
                     projectsContainer.innerHTML = projects.map(project => \`
                         <div class="project">
-                            \${p.imageKey ? \`<img src="/images/\${project.imageKey}" alt="\${project.name}">\` : ''}
+                            ${project.imageKey ? `<img src="/images/${project.imageKey}" alt="${project.name}">` : ''}
 
-                            \${p.tags ? \`<div class="tags">\${project.tags.map(tag => \`<span class="tag">\${tag}</span>\`).join('')}</div>\` : ''}
-                            <h2>\${p.name}</h2>
+                            ${project.tags ? `<div class="tags">${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
+                            <h2>${project.name}</h2>
                             <p>\${project.description}</p>
                             \${project.image ? \`<img src="/images/${project.image}" alt="${project.name}">\` : ''}
                         </div>
