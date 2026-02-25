@@ -94,7 +94,7 @@ async function handleGetProjectsKV(env) {
     }
 }
 
-//Serve images from R2
+//Serve images from R2 
 async function handleGetImageR2(imageKey, env) {
     try {
         const object = await env.wds-portfolio-test_R2.get(imageKey);
