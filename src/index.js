@@ -1,25 +1,30 @@
 export default {
     async fetch(request, env, ctx) {
-        const url = new URL(request.url);
+        try {
+            const url = new URL(request.url);
 
-        //Serve the main HTML page
-        if (url.pathname === "/") {
-            return serveHtmlPage();
+            //Serve the main HTML page
+            if (url.pathname === "/") {
+                return serveHtmlPage();
+            }
+
+            //API Endpoint: Get all projects from KV
+            if (url.pathname === "/api/projects") {
+                return handleGetProjectsKV(env);
+            }
+
+            //Serve images from R2
+            if (url.pathname.startsWith("/images/")) {
+                const imageKey = url.pathname.replace("/images/", "");
+                return handleGetImageR2(imageKey, env);
+            }
+
+            //Fallback for 404 Not Found
+            return new Response("Not Found", { status: 404 });
+        } catch (error) {
+            console.error("Worker error:", error);
+            return new Response(`Internal Server Error: ${error.message}`, { status: 500 });
         }
-
-        //API Endpoint: Get all projects from KV
-        if (url.pathname === "/api/projects") {
-            return handleGetProjectsKV(env);
-        }
-
-        //Serve images from R2
-        if (url.pathname.startsWith("/images/")) {
-            const imageKey = url.pathname.replace("/images/", "");
-            return handleGetImageR2(imageKey, env);
-        }
-
-        //Fallback for 404 Not Found
-        return new Response("Not Found", { status: 404 });
     }
 };
 
@@ -73,11 +78,11 @@ function serveHtmlPage() {
 //Get all projects from KV and return as JSON
 async function handleGetProjectsKV(env) {
     try {
-        const list = await env.wds-portfolio-test_KV.list({ prefix: 'project:' });
+        const list = await env["wds-portfolio-test_KV"].list({ prefix: 'project:' });
         const projects = [];
 
         for (const key of list.keys) {
-            const value = await env.wds-portfolio-test_KV.get(key.name);
+            const value = await env["wds-portfolio-test_KV"].get(key.name);
             if (value) {
                 projects.push(JSON.parse(value));
             }
@@ -97,7 +102,7 @@ async function handleGetProjectsKV(env) {
 //Serve images from R2 
 async function handleGetImageR2(imageKey, env) {
     try {
-        const object = await env.wds-portfolio-test_R2.get(imageKey);
+        const object = await env["wds-portfolio-test_R2"].get(imageKey);
         if (!object) {
             return new Response("Image not found", { status: 404 });
         }
