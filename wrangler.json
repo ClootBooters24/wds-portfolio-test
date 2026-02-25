@@ -2,7 +2,7 @@
     "name": "wds-portfolio-test",
     "compatibility_date": "2025-12-23",
     "assets": {
-        "directory": "./",
+        "directory": "./src",
         "not_found_handling": "404-page"
     }
 }
