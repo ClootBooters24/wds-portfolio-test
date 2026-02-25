@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/styles.css", "/.git/*"],
-  "exclude": ["/*"]
+  "include": ["/", "/api/*", "/images/*"],
+  "exclude": []
 }
