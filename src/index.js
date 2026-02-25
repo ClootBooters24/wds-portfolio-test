@@ -52,16 +52,24 @@ function serveHtmlPage() {
                         return;
                     }
 
-                    projectsContainer.innerHTML = projects.map(project => \`
-                        <div class="project">
-                            ${project.imageKey ? `<img src="/images/${project.imageKey}" alt="${project.name}">` : ''}
-
-                            ${project.tags ? `<div class="tags">${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
-                            <h2>${project.name}</h2>
-                            <p>\${project.description}</p>
-                            \${project.image ? \`<img src="/images/${project.image}" alt="${project.name}">\` : ''}
-                        </div>
-                    \`).join('');
+                    projectsContainer.innerHTML = projects.map(function(project) {
+                        let html = '<div class="project">';
+                        if (project.imageKey) {
+                            html += '<img src="/images/' + project.imageKey + '" alt="' + project.name + '">';
+                        }
+                        if (project.tags) {
+                            html += '<div class="tags">' + project.tags.map(function(tag) {
+                                return '<span class="tag">' + tag + '</span>';
+                            }).join('') + '</div>';
+                        }
+                        html += '<h2>' + project.name + '</h2>';
+                        html += '<p>' + project.description + '</p>';
+                        if (project.image) {
+                            html += '<img src="/images/' + project.image + '" alt="' + project.name + '">';
+                        }
+                        html += '</div>';
+                        return html;
+                    }).join('');
                 }
 
                 loadProjects();
