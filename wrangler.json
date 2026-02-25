@@ -1,5 +1,6 @@
 {
     "name": "wds-portfolio-test",
+    "main": "src/index.js",
     "compatibility_date": "2026-02-25",
     "kv_namespaces": [
         { "binding": "wds-portfolio-test_KV", "id": "b73fb521868d4940a5616bd50816a7af" }
